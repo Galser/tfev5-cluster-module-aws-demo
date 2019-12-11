@@ -1,6 +1,9 @@
 # tfev5-cluster-module-aws-demo
 Demonstration of how to use HashiCorp's modules to setup basic TFE v5 cluster on AWSm with full required infra provision
 
+**WARNING : Using of the infrastructure created by the code in this repo will imply some cost charge. Ths is NOT suitable for AWS Free Tier.**
+
+
 # Requirements
 
 This repository assumes general knowledge about Terraform, if not, please get yourself accustomed first by going through [getting started guide for Terraform](https://learn.hashicorp.com/terraform?track=getting-started#getting-started). We also going to use AWS EC2 as our infrastructure provider, AWS Route53 DNS service and Amazon-managed SSL Certificates.
@@ -14,23 +17,74 @@ As a last word - you also will need to have proper TFE v5 HA license at hand. In
 
 # How-to
 
+## Prepare authentication credentials
+
+- Prepare AWS auth credentials (You can create security credentials on [this page](https://console.aws.amazon.com/iam/home?#security_credential).) To export them via env variables, execute in the command line :
+ ```
+ export AWS_ACCESS_KEY_ID="YOUR ACCESS KEY"
+ export AWS_SECRET_ACCESS_KEY="YOUR SECRET KEY"
+ ```
+You can choose any other way of authentication, but this manual assumes the one above. 
+## Deploy infrastructure
+- Clone this repo (*use the tools of your choice*)
+- Open the folder with cloned repo
+- Define your domain name in [variables.tf](variables.tf), edit on 4-th line, following block :
+ ```terraform
+ variable "site_domain" {
+   default = "hashicorp-success.com"
+ }
+ ```
+- Define your domain site (host) record in [variables.tf](variables.tf), edit on line 10, following block :
+ ```terraform
+ variable "site_record" {
+   default = "agtfe5-2"
+ }
+ ```
+- Install Terrafrom, version 0.11.x is required for the present moment.
+You can follow instruction from Getting Started : https://learn.hashicorp.com/terraform/getting-started/install 
+- From inside folder with cloned repo init Terraform by executing :
+```
+terraform init
+```
+Example output can be found here : [terraform_init.md](terraform_init.md)
+
+- Now let's spin up infra for the TFE , by executing :
+```
+terraform apply -target=module.external.aws_rds_cluster_instance.tfe1 -auto-approve
+```
+> Note that we are using *targeted* apply, in order to have infra deliberately deployed before TFE, and because we mixing all parts in one repository for the simplification. In a real environment you should better have a network / VPC / DB / Storage layers as separate parts and projects. 
+
+Example FULL output can be found here : [terraform_apply_infra.md](terraform_apply_infra.md)
+
+Execution will take some time, and at the very end of the output you should see something similar to :
+```bash
+
+Outputs:
+```
+Deployment of the infrastructure utilizing 2 separate modules  : 
+- Bootsrap AWS : https://github.com/hashicorp/private-terraform-enterprise/tree/master/examples/bootstrap-aws
+- External Services : https://github.com/hashicorp/terraform-aws-terraform-enterprise/tree/master/modules/external-services
+
+For your convenience they had been cloned and located now under the [modules](modules) folder in this repo. 
+
+
 
 # TODO
-- [ ] add code for infrastructure 
-- [ ] put all the proper links for modules in README
 - [ ] provision VPC + DB layer for TFE
 - [ ] install TFE v5 in Prod Cluster mode with external services
 - [ ] update README
 
 # DONE
 - [x] define objectives
+- [x] add code for infrastructure 
+- [x] put all the proper links for modules in README
 
 
 # Run logs
 
 - terraform init : [terraform_init.md](terraform_init.md)
-- terraform apply for infra creation  : [terraform_apply_infra.md](terraform_apply.md)
-- terraform apply - TFE deploy  : [terraform_apply_tfe_deploy.md](terraform_apply.md)
+- terraform apply for infra creation  : [terraform_apply_infra.md](terraform_apply_infra.md)
+- terraform apply - TFE deploy  : [terraform_apply_tfe_deploy.md](terraform_apply_tfe_deploy.md)
 - terraform destroy : [terraform_destroy.md](terraform_destroy.md)
 
 
