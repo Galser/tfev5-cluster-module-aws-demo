@@ -12,6 +12,10 @@ This repository assumes general knowledge about Terraform, if not, please get yo
 
 To learn more about the mentioned above tools and technologies -  please check section [Technologies near the end of the README](#technologies)
 
+Please read also first official parts of the the manual  : 
+- [Pre-install checklist](https://www.terraform.io/docs/enterprise/before-installing/index.html)
+- [Deploying a Terraform Enterprise Cluster on AWS](https://www.terraform.io/docs/enterprise/install/cluster-aws.html)
+
 As a last word - you also will need to have proper TFE v5 HA license at hand. In case you don't have it - please contact you technical account manager to obtain one. This licencees, differ, from the one issued in the past by default, so, do not assume anything, ask support.
 
 
@@ -101,24 +105,71 @@ Execute :
 ```bash
 terraform apply --auto-approve
 ```
+After some time you can see the outputs near the end of the installation : 
+
+```bash
+Apply complete! Resources: 53 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+tfe-cluster = {
+  application_endpoint = https://agtfe5-2.hashicorp-success.com
+  application_health_check = https://agtfe5-2.hashicorp-success.com/_health_check
+  iam_role = ptfe-es67ralybod
+  install_id = es67raly
+  installer_dashboard_password = merely-unethical-kangooroo
+  installer_dashboard_url = https://agtfe5-2.hashicorp-success.com:8800
+  primary_public_ip = 3.120.248.243
+  ssh_private_key = /.../tfev5-cluster-module-aws-demo/work/agtf5-es67raly.priv
+}
+tfe-infra=details = {
+  postgresql_address = tfe-es67doly20191211125600919200000003.cluster-c45sadhyh79j5.eu-central-1.rds.amazonaws.com
+  postgresql_database = tfe
+  postgresql_password = Al2XRKIaqJofHWzyTi3gW9g0hVaFc7dx67CWpn3k
+  postgresql_user = tfe
+}
+```
+
+From here you can visit Dashboard at `installer_dashboard_url`, and use password from `installer_dashboard_password` to unlock it. After unlocking you are going to br redirected to the settings page : 
+
+![Settings page screenshot](screenshots/settings_page.png)
+
+At this moment TFE (as application) is still starting. IF you go to the Dashboard link in the top menu, you could see something like this : 
+
+![TFE Starting screenshot](screenshots/tfe_starting.png)
+
+For example it can be that one node is still not completely, up, yuou can visit section Cluster, from the top menu and see such picture : 
+
+![TFE Cluster Status screenshot](screenshots/cluster_status_one_node_not_started.png)
+
+
+When all required nodes and services are up, the main dashboard status going to change, to reflect this as follows : 
+
+![TFE Started Dashboard screenshot](screenshots/tfe_started.png)
+
+From this, you can press the link "Open" below the button [Stop] in teh leftmost section, and start creating your first user and working with Terraform Enterprise : 
+
+![TFE first user screenshot](screenshots/first_user.png)
+
+That's concludes this small demo. Thank you.
 
 
 # TODO
-- [ ] install TFE v5 in Prod Cluster mode with external services
-- [ ] update README
 
 # DONE
 - [x] define objectives
 - [x] add code for infrastructure 
 - [x] put all the proper links for modules in README
 - [x] provision VPC + DB layer for TFE
+- [x] install TFE v5 in Prod Cluster mode with external services
+- [x] update README
 
 
 # Run logs
 
 - terraform init : [terraform_init.md](terraform_init.md)
 - terraform apply for *network layer* infra creation  : [terrafor_apply_network_layer.md](terrafor_apply_network_layer.md)
-- terraform apply for *external services* - DB and object storage (S3 bucket) : [terraform_apply_ext_services.md](terraform_apply_tfe_deploy.md)
+- terraform apply for *external services* - DB and object storage (S3 bucket) : [terraform_apply_ext_services.md](terraform_apply_ext_services.md)
 - terraform apply - TFE deploy  : [terraform_apply_ext_services.md](terraform_apply_tfe_deploy.md)
 - terraform destroy : [terraform_destroy.md](terraform_destroy.md)
 
@@ -132,3 +183,4 @@ terraform apply --auto-approve
  - Pre-Install checklist: https://www.terraform.io/docs/enterprise/before-installing/index.html
 
 3. **This project for virtualization** uses **AWS EC2** - Amazon Elastic Compute Cloud (Amazon EC2 for short) - a web service that provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. You can read in details and create a free try-out account if you don't have one here : [Amazon EC2 main page](https://aws.amazon.com/ec2/)
+
