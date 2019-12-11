@@ -47,19 +47,18 @@ At least replace the `domain name` and `license file` with your own.
  }
  ```
 - Define path to the file with yur license on lines : 45-47 : 
-  ```terraform
-  variable "license_file" {
-    default = "andrii-hashicorp-emea.rli" 
-  }
-  ```
+ ```terraform
+ variable "license_file" {
+   default = "andrii-hashicorp-emea.rli" 
+ }
+ ```
 - Install Terrafrom, version 0.11.x is required for the present moment.
 You can follow instruction from Getting Started: https://learn.hashicorp.com/terraform/getting-started/install 
 - From inside folder with cloned repo init Terraform by executing :
-```
-terraform init
-```
+  ```
+  terraform init
+  ```
 Example output can be found here : [terraform_init.md](terraform_init.md)
-
 
 Now let's spin up infra for the TFE, we will do this in several stages
 
@@ -96,9 +95,10 @@ Example sanitized output (*passwords and sensitive information masqueraded*) : [
 ## Stage 3: Deployment of the Terraform Enterprise v5 cluster
 
 We are going to create 3 primary and 5 secondary nodes.
-This defined in the file [variables.tf](variables.tf] at lines 25-31
+This defined in the file [variables.tf](variables.tf) at lines 25-31
 
 The module used here is the one referenced in the original manual: https://registry.terraform.io/modules/hashicorp/terraform-enterprise/aws/0.1.1
+
 GitHub repository link to module code https://github.com/hashicorp/terraform-aws-terraform-enterprise
 
 Execute : 
@@ -147,7 +147,7 @@ When all required nodes and services are up, the main dashboard status going to 
 
 ![TFE Started Dashboard screenshot](screenshots/tfe_started.png)
 
-From this, you can press the link "Open" below the button [Stop Now] in the leftmost section, and start creating your first user and working with Terraform Enterprise : 
+From here, you can press the link "Open" below the button [Stop Now] in the leftmost section, and start creating your first user and working with Terraform Enterprise : 
 
 ![TFE first user screenshot](screenshots/first_user.png)
 
