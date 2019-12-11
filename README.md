@@ -32,6 +32,7 @@ You can choose any other way of authentication, but this manual assumes the one 
 ## Deploy infrastructure
 - Clone this repo (*use the tools of your choice*)
 - Open the folder with cloned repo
+
 ### Tune parameters for your case 
 At least replace the `domain name` and `license file` with your own. 
 - Define your domain name in [variables.tf](variables.tf), edit online 4, following block :
@@ -52,6 +53,8 @@ At least replace the `domain name` and `license file` with your own.
    default = "andrii-hashicorp-emea.rli" 
  }
  ```
+- You may also - change the regional setings or some prefixes, that's up to your preferences. 
+
 - Install Terrafrom, version 0.11.x is required for the present moment.
 You can follow instruction from Getting Started: https://learn.hashicorp.com/terraform/getting-started/install 
 - From inside folder with cloned repo init Terraform by executing :
