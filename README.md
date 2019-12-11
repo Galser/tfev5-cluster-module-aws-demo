@@ -35,7 +35,7 @@ You can choose any other way of authentication, but this manual assumes the one 
 
 ### Tune parameters for your case 
 At least replace the `domain name` and `license file` with your own. 
-- Define your domain name in [variables.tf](variables.tf), edit online 4, following block :
+- Define your domain name in [variables.tf](variables.tf), edit line 4, following block :
  ```terraform
  variable "site_domain" {
    default = "hashicorp-success.com"
@@ -47,23 +47,23 @@ At least replace the `domain name` and `license file` with your own.
    default = "agtfe5-2"
  }
  ```
-- Define path to the file with yur license on lines : 45-47 : 
+- Define path to the file with yur license on lines 45-47 : 
  ```terraform
  variable "license_file" {
    default = "andrii-hashicorp-emea.rli" 
  }
  ```
-- You may also - change the regional setings or some prefixes, that's up to your preferences. 
+- You may also - change the regional setings or some prefixes, that's up to your preferences. By default deployement targeting Central EU. 
 
-- Install Terrafrom, version 0.11.x is required for the present moment.
-You can follow instruction from Getting Started: https://learn.hashicorp.com/terraform/getting-started/install 
+- Install Terrafrom. **Version 0.11.x is required for the present moment.**.
+You can follow instructions from Getting Started: https://learn.hashicorp.com/terraform/getting-started/install 
 - From inside folder with cloned repo init Terraform by executing :
   ```
   terraform init
   ```
 Example output can be found here : [terraform_init.md](terraform_init.md)
 
-Now let's spin up infra for the TFE, we will do this in several stages
+Now let's spin up infra for the TFE, we will do this in several stages.
 
 ## Stage 1: VPC and networks
 
@@ -73,7 +73,7 @@ This stage utilizing module - Bootsrap AWS: https://github.com/hashicorp/private
 ```bash
 terraform apply -target=module.bootstrap_aws.module.new_vpc --auto-approve
 ```
-> Note that we are using *targeted* apply, to have infra deliberately deployed before TFE and because we mixing all parts in one repository for the simplification. In a real environment, you should better have a network / VPC / DB / Storage layers as separate parts and projects. 
+> Note that we are using *targeted* apply, to have infra deliberately deployed before TFE and because we mixing all parts in one repository for the simplification. In a real environment, you should better have a network / VPC / DB / Storage layers as separate parts and projects, deployed for example as part of CI/CD stages.
 
 Example sanitized output (*passwords and sensitive information masqueraded*) can be found here : [terrafor_apply_network_layer.md](terrafor_apply_network_layer.md)
 
@@ -97,14 +97,13 @@ Example sanitized output (*passwords and sensitive information masqueraded*) : [
 
 ## Stage 3: Deployment of the Terraform Enterprise v5 cluster
 
-We are going to create 3 primary and 5 secondary nodes.
-This defined in the file [variables.tf](variables.tf) at lines 25-31
+We are going to create 3 primary and 5 secondary nodes. This defined in the file [variables.tf](variables.tf) at lines 25-31
 
 The module used here is the one referenced in the original manual: https://registry.terraform.io/modules/hashicorp/terraform-enterprise/aws/0.1.1
 
-GitHub repository link to module code https://github.com/hashicorp/terraform-aws-terraform-enterprise
+And jsut in case GitHub repository link to module code : https://github.com/hashicorp/terraform-aws-terraform-enterprise
 
-Execute : 
+Execute from command line : 
 ```bash
 terraform apply --auto-approve
 ```
@@ -137,7 +136,9 @@ From here you can visit the **Dashboard** at `installer_dashboard_url`, and use 
 
 ![Settings page screenshot](screenshots/settings_page.png)
 
-At this moment TFE (as an application) is still starting. IF you go to the Dashboard link in the top menu, you could see something like this : 
+If instead you see on the the screen Nginx-branded error HTTP 502 on default background, please wait a couple minutes, give dashboard time to start up.
+
+At this moment TFE (as an application) is still starting. If you go to the Dashboard link in the top menu, you could see something like this : 
 
 ![TFE Starting screenshot](screenshots/tfe_starting.png)
 
@@ -146,7 +147,7 @@ For example, it can be that one node is still not completely, up, you can visit 
 ![TFE Cluster Status screenshot](screenshots/cluster_status_one_node_not_started.png)
 
 
-When all required nodes and services are up, the main dashboard status going to change, to reflect this as follows : 
+When all required nodes and services are up (*it can take from 10 to 40 minutes*), the main dashboard status going to change, to reflect this as follows : 
 
 ![TFE Started Dashboard screenshot](screenshots/tfe_started.png)
 
