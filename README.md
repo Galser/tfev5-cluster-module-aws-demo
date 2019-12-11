@@ -28,6 +28,8 @@ You can choose any other way of authentication, but this manual assumes the one 
 ## Deploy infrastructure
 - Clone this repo (*use the tools of your choice*)
 - Open the folder with cloned repo
+### Tune parameters for your case 
+At least replce domain naem and license file with your own. 
 - Define your domain name in [variables.tf](variables.tf), edit on 4-th line, following block :
  ```terraform
  variable "site_domain" {
@@ -40,6 +42,12 @@ You can choose any other way of authentication, but this manual assumes the one 
    default = "agtfe5-2"
  }
  ```
+- Define path to the file with yur license on lines : 45-47 : 
+  ```terraform
+  variable "license_file" {
+    default = "andrii-hashicorp-emea.rli" 
+  }
+  ```
 - Install Terrafrom, version 0.11.x is required for the present moment.
 You can follow instruction from Getting Started : https://learn.hashicorp.com/terraform/getting-started/install 
 - From inside folder with cloned repo init Terraform by executing :
@@ -73,19 +81,26 @@ terraform apply -target=module.external.aws_rds_cluster_instance.tfe1 -auto-appr
 ```
 > Again we are using *targeted* apply, in order to have infra deliberately deployed before TFE
 
+Execution will take some time, this is usually the slowest part of the whole process as creation of the DB can take 7-9 minutes easy.
+
 Example sanitized output (*passwords and sensitive information masqueraded*) : [terraform_apply_ext_services.md](terraform_apply_ext_services.md)
-
-Execution will take some time, and at the very end of the output you should see something similar to :
-```bash
-
-Outputs:
-```
 
 
 > For your convenience both modules for stage 1 and 2  had been cloned and located now under the [modules](modules) folder in this repo. 
 
+
 ## Stage 3 : Deployment of the Terraform Enterprise v5 cluster
+
 We are going to create 3 primary and 5 secondary nodes.
+This defined in the file [variables.tf](variables.tf] at lines 25-31
+
+Module used here is the one referenced in the original manual : link to HashiCorp's registry : https://registry.terraform.io/modules/hashicorp/terraform-enterprise/aws/0.1.1
+GitHub repository link to module code https://github.com/hashicorp/terraform-aws-terraform-enterprise
+
+Execute : 
+```bash
+terraform apply --auto-approve
+```
 
 
 # TODO
