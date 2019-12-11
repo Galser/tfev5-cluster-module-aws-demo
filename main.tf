@@ -17,8 +17,9 @@ module "tfe-cluster" {
   hostname   = "${var.site_record}"
   import_key = "${file("/Users/andrii/.ssh/id_rsa.pub")}"
 
-  #
-  #update_route53 = false
+  primary_count   = "${var.primary_count}"
+  secondary_count = "${var.secondary_count}"
+
   postgresql_user = "${module.external.database_username}"
 
   postgresql_password     = "${module.external.database_password}"

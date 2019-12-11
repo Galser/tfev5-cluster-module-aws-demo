@@ -3,4 +3,5 @@ terraform.tfstate
 terraform.tfstate*
 *.pem
 *.rli
+work
 .DS_Store

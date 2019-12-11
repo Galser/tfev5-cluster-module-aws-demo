@@ -170,7 +170,7 @@ Outputs:
 tfe-infra=details = {
   postgresql_address = tfe-es67doly20191211125600919200000003.cluster-c45sadhyh79j5.eu-central-1.rds.amazonaws.com
   postgresql_database = tfe
-  postgresql_password = Bl2XRKIaqJofHWzyTi3gW9g0hVaFc7dx67CWpn3k
+  postgresql_password = Al2XRKIaqJofHWzyTi3gW9g0hVaFc7dx67CWpn3k
   postgresql_user = tfe
 }
 ```

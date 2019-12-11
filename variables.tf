@@ -22,6 +22,14 @@ variable "allZones" {
   default = ["eu-central-1b", "eu-central-1a", "eu-central-1c"]
 }
 
+variable "primary_count" {
+  default = 3
+}
+
+variable "secondary_count" {
+  default = 5
+}
+
 variable "tag" {
   default = "ag_ptfe_pm"
 }
