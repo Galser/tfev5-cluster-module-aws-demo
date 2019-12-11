@@ -48,29 +48,47 @@ terraform init
 ```
 Example output can be found here : [terraform_init.md](terraform_init.md)
 
-- Now let's spin up infra for the TFE , by executing :
-```
-terraform apply -target=module.external.aws_rds_cluster_instance.tfe1 -auto-approve
+
+Now let's spin up infra for the TFE, we will do this in several stages
+
+## Stage 1 : VPC and networks
+
+This stage utilizing module - Bootsrap AWS : https://github.com/hashicorp/private-terraform-enterprise/tree/master/examples/bootstrap-aws
+
+- Execute : 
+```bash
+terraform apply -target=module.bootstrap_aws.module.new_vpc --auto-approve
 ```
 > Note that we are using *targeted* apply, in order to have infra deliberately deployed before TFE, and because we mixing all parts in one repository for the simplification. In a real environment you should better have a network / VPC / DB / Storage layers as separate parts and projects. 
 
-Example FULL output can be found here : [terraform_apply_infra.md](terraform_apply_infra.md)
+Example sanitized output (*passwords and sensitive information masqueraded*) can be found here : [terrafor_apply_network_layer.md](terrafor_apply_network_layer.md)
+
+
+## Stage 2 : External Services : Database and S3 Storage
+This part using *"External Services"* module : https://github.com/hashicorp/terraform-aws-terraform-enterprise/tree/master/modules/external-services
+
+- Execute : 
+```bash
+terraform apply -target=module.external.aws_rds_cluster_instance.tfe1 -auto-approve
+```
+> Again we are using *targeted* apply, in order to have infra deliberately deployed before TFE
+
+Example sanitized output (*passwords and sensitive information masqueraded*) : [terraform_apply_ext_services.md](terraform_apply_ext_services.md)
 
 Execution will take some time, and at the very end of the output you should see something similar to :
 ```bash
 
 Outputs:
 ```
-Deployment of the infrastructure utilizing 2 separate modules  : 
-- Bootsrap AWS : https://github.com/hashicorp/private-terraform-enterprise/tree/master/examples/bootstrap-aws
-- External Services : https://github.com/hashicorp/terraform-aws-terraform-enterprise/tree/master/modules/external-services
 
-For your convenience they had been cloned and located now under the [modules](modules) folder in this repo. 
 
+> For your convenience both modules for stage 1 and 2  had been cloned and located now under the [modules](modules) folder in this repo. 
+
+## Stage 3 : Deployment of the Terraform Enterprise v5 cluster
+We are going to create 3 primary and 5 secondary nodes.
 
 
 # TODO
-- [ ] provision VPC + DB layer for TFE
 - [ ] install TFE v5 in Prod Cluster mode with external services
 - [ ] update README
 
@@ -78,13 +96,15 @@ For your convenience they had been cloned and located now under the [modules](mo
 - [x] define objectives
 - [x] add code for infrastructure 
 - [x] put all the proper links for modules in README
+- [x] provision VPC + DB layer for TFE
 
 
 # Run logs
 
 - terraform init : [terraform_init.md](terraform_init.md)
-- terraform apply for infra creation  : [terraform_apply_infra.md](terraform_apply_infra.md)
-- terraform apply - TFE deploy  : [terraform_apply_tfe_deploy.md](terraform_apply_tfe_deploy.md)
+- terraform apply for *network layer* infra creation  : [terrafor_apply_network_layer.md](terrafor_apply_network_layer.md)
+- terraform apply for *external services* - DB and object storage (S3 bucket) : [terraform_apply_ext_services.md](terraform_apply_tfe_deploy.md)
+- terraform apply - TFE deploy  : [terraform_apply_ext_services.md](terraform_apply_tfe_deploy.md)
 - terraform destroy : [terraform_destroy.md](terraform_destroy.md)
 
 
