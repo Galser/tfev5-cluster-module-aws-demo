@@ -6,7 +6,7 @@ Demonstration of how to use HashiCorp's modules to setup basic TFE v5 cluster on
 
 # Requirements
 
-This repository assumes general knowledge about Terraform, if not, please get yourself accustomed first by going through [getting started guide for Terraform](https://learn.hashicorp.com/terraform?track=getting-started#getting-started). We also going to use AWS EC2 as our infrastructure provider, AWS Route53 DNS service and Amazon-managed SSL Certificates.
+This repository assumes solid knowledge about Terraform, if not, please get yourself accustomed first by going through [getting started guide for Terraform](https://learn.hashicorp.com/terraform?track=getting-started#getting-started). We also going to use AWS EC2 as our infrastructure provider, AWS Route53 DNS service and Amazon-managed SSL Certificates.
 
 **Please be aware, before doing anything that at the moment (in the transition period) to deploy TFE v5 in CLuster mode you will need to use Terraform v 0.11.X, not 12**
 
@@ -47,7 +47,7 @@ At least replace the `domain name` and `license file` with your own.
    default = "agtfe5-2"
  }
  ```
-- Define path to the file with yur license on lines 45-47 : 
+- Define path to the file with yur license in [variables.tf](variables.tf) on lines 45-47 : 
  ```terraform
  variable "license_file" {
    default = "andrii-hashicorp-emea.rli" 
@@ -55,7 +55,7 @@ At least replace the `domain name` and `license file` with your own.
  ```
 - You may also - change the regional setings or some prefixes, that's up to your preferences. By default deployement targeting Central EU. 
 
-- Install Terrafrom. **Version 0.11.x is required for the present moment.**.
+- Install Terraform. **Version 0.11.x is required for the present moment.**.
 You can follow instructions from Getting Started: https://learn.hashicorp.com/terraform/getting-started/install 
 - From inside folder with cloned repo init Terraform by executing :
   ```
