@@ -43,5 +43,7 @@ variable "setup_bucket" {
 }
 
 variable "license_file" {
-  default = "andrii-hashicorp-emea.rli"
+	#default = "andrii-hashicorp-emea.rli"
+  default = "royal-dutch-shell---prod.rli"
+
 }
