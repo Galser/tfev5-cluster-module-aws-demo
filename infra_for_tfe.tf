@@ -66,7 +66,7 @@ resource "aws_iam_role_policy" "setup-bucket" {
 
 # Outputs
 # -----------------------------------------------------------------------------
-output "tfe-infra=details" {
+output "tfe-infra-details" {
   value = {
     postgresql_user     = "${module.external.database_username}"
     postgresql_password = "${module.external.database_password}"
